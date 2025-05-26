@@ -1,0 +1,38 @@
+<div class="voter-panel">
+    <h2>Voter Panel</h2>
+
+    <div>
+        <a routerLink="/">Home</a> |
+        <a routerLink="/admin" [class.disabled]="!isAdmin" [attr.aria-disabled]="!isAdmin">Admin Panel</a>
+        <a routerLink="/voter">Voter Panel</a>
+    </div>
+  
+    <div *ngIf="!voterDetails?.isRegistered" class="registration-form">
+      <h3>Register as Voter</h3>
+      <input [(ngModel)]="registrationForm.name" placeholder="Your Name">
+      <input [(ngModel)]="registrationForm.phone" placeholder="Phone Number">
+      <button (click)="registerVoter()">Register</button>
+    </div>
+  
+    <div *ngIf="voterDetails?.isRegistered" class="voter-info">
+      <h3>Voter Information</h3>
+      <p>Name: {{voterDetails.name}}</p>
+      <p>Status: {{voterDetails.isVerified ? 'Verified' : 'Not Verified'}}</p>
+      <p>Voted: {{voterDetails.voted ? 'Yes' : 'No'}}</p>
+    </div>
+  
+    <div *ngIf="voterDetails?.isVerified && !voterDetails?.voted" class="voting-section">
+      <h3>Cast Your Vote</h3>
+      <div *ngFor="let candidate of candidates">
+        <p>{{candidate.header}} - {{candidate.slogan}}</p>
+        <button (click)="castVote(candidate.candidateId)">Vote</button>
+      </div>
+    </div>
+  
+    <div *ngIf="voterDetails?.isVerified && !voterDetails?.voted" class="delegation-section">
+      <h3>Delegate Your Vote</h3>
+      <input [(ngModel)]="delegateAddress" placeholder="Delegate Address">
+      <button (click)="delegateVote()">Delegate Vote</button>
+    </div>
+
+</div>

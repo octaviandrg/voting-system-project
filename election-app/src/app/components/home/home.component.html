@@ -1,0 +1,38 @@
+<div class="container">     
+  <h1>{{ title }}</h1>      
+  
+  <div>       
+    <a routerLink="/">Home</a> |       
+    <a [routerLink]="'/admin'" [class.disabled]="!isAdmin" [attr.aria-disabled]="!isAdmin">Admin Panel</a>       
+    <a routerLink="/voter">Voter Panel</a>     
+  </div>        
+  
+  <div *ngIf="electionDetails; else loading">       
+    <h2>Election Details</h2>       
+    <p><strong>Admin:</strong> {{ electionDetails.adminName }} ({{ electionDetails.adminEmail }})</p>       
+    <p><strong>Title:</strong> {{ electionDetails.electionTitle }}</p>       
+    <p><strong>Organization:</strong> {{ electionDetails.organizationTitle }}</p>       
+    <p><strong>Status:</strong> {{ electionStatus }}</p>     
+  </div>        
+  
+  <ng-template #loading>       
+    <p>Loading election details...</p>     
+  </ng-template>        
+
+  <!-- Candidates List - Visible to all -->
+  <div *ngIf="candidates.length > 0">
+    <h3>Candidates</h3>
+    <div *ngFor="let candidate of candidates">
+      <p><strong>{{ candidate.header }}</strong></p>
+      <p>{{ candidate.slogan }}</p>
+      <p>Votes: {{ candidate.voteCount }}</p>
+    </div>
+  </div>
+
+  <!-- Winner Section - Only shown when election has ended -->
+  <div *ngIf="winner">
+    <h3>Election Winner</h3>
+    <p><strong>Winner:</strong> {{ winner[1] }}</p>
+    <p><strong>Slogan:</strong> {{ winner[2] }}</p>
+  </div>
+</div>
